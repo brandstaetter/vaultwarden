@@ -162,6 +162,9 @@ argon2 = "0.5.2"
 # Reading a password from the cli for generating the Argon2id ADMIN_TOKEN
 rpassword = "7.3.1"
 
+# Lambda support as per https://medium.com/@darioackermann/vaultwarden-on-aws-lambda-api-gateway-and-efs-for-almost-no-money-part-1-poc-69cded4af558
+lambda-web = { version = "0.2.0", features=["rocket05"] }
+
 
 # Strip debuginfo from the release builds
 # The symbols are the provide better panic traces
