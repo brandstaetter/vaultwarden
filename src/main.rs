@@ -572,10 +572,10 @@ async fn launch_rocket(pool: db::DbPool, extra_debug: bool) -> Result<(), Error>
     
     if is_running_on_lambda() {
         // Launch on AWS Lambda
-        launch_rocket_on_lambda(instance).await?;
+        launch_rocket_on_lambda(instance).await.expect("Error launching rocket on lambda");
     } else {
         // Launch local server
-        let _ = instance.launch().await?;
+        let _ = instance.launch().await.expect("Error launching rocket normally");
     }
 
     info!("Vaultwarden process exited!");
