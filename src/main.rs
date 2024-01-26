@@ -89,10 +89,10 @@ pub use error::{Error, MapResult};
 use rocket::data::{Limits, ToByteUnit};
 use std::sync::Arc;
 pub use util::is_running_in_docker;
-use lambda_web::{is_running_on_lambda, launch_rocket_on_lambda, LambdaError};
+use lambda_web::{is_running_on_lambda, launch_rocket_on_lambda};
 
 #[rocket::main]
-async fn main() -> Result<(), LambdaError> {
+async fn main() -> Result<(), Error> {
     parse_args();
     launch_info();
 
