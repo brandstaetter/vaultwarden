@@ -15,7 +15,7 @@ jobs:
       run: |
         docker build . --file Dockerfile.build --tag lambda-builder:$(date +%s)
         docker volume create cargo-registry
-        docker run --rm --mount type=bind,source="$(pwd)",target=/build --mount type=volume,source=cargo-registry,target=/root/.cargo/registry/ lambda-builder
+        docker run --rm --mount type=bind,source="$(pwd)",target=/build --mount type=volume,source=cargo-registry,target=/root/.cargo/registry/ lambda-builder:$(date +%s)
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v4
       with:
