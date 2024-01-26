@@ -89,9 +89,10 @@ pub use error::{Error, MapResult};
 use rocket::data::{Limits, ToByteUnit};
 use std::sync::Arc;
 pub use util::is_running_in_docker;
+use lambda_web::{is_running_on_lambda, launch_rocket_on_lambda, LambdaError};
 
 #[rocket::main]
-async fn main() -> Result<(), Error> {
+async fn main() -> Result<(), LambdaError> {
     parse_args();
     launch_info();
 
@@ -568,8 +569,14 @@ async fn launch_rocket(pool: db::DbPool, extra_debug: bool) -> Result<(), Error>
         info!("Exiting vaultwarden!");
         CONFIG.shutdown();
     });
-
-    let _ = instance.launch().await?;
+    
+    if is_running_on_lambda() {
+        // Launch on AWS Lambda
+        launch_rocket_on_lambda(instance).await?;
+    } else {
+        // Launch local server
+        let _ = instance.launch().await?;
+    }
 
     info!("Vaultwarden process exited!");
     Ok(())
